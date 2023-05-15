@@ -26,20 +26,22 @@ class TodoController extends Controller
 
     public function store(Request $request)
     {
-        $validatedDate = $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
         ]);
 
-        $todo = Todo::create($validatedDate);
+        $validatedData['state'] = 'incomplete'; // Set the default state to incomplete
 
-        return redirect()->route('todos.index')->with('success', 'Todo created successfully.');
+        $todo = Todo::create($validatedData);
+
+        return redirect()->route('todos.index')->with('success', 'Todo created successfully');
     }
 
     public function update(Request $request, Todo $todo)
     {
         $todo->update(['state' => $request->has('completed') ? 'completed' : 'incomplete']);
 
-        return redirect()->route('todos.index') > with('success', 'Todo updated successfully.');
+        return redirect()->route('todos.index')->with('success', 'Todo updated successfully');
     }
 }

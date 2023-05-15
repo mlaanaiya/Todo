@@ -13,6 +13,9 @@
             text-decoration: none;
             border-radius: 4px;
         }
+        .completed {
+            text-decoration: line-through;
+        }
     </style>
 </head>
 <body>
@@ -21,11 +24,13 @@
     <ul>
         @foreach ($todos as $todo)
             <li>
-                @if ($todo->state === 'completed')
-                    <del>{{ $todo->title }}</del>
-                @else
-                    {{ $todo->title }}
-                @endif
+                <input type="checkbox" {{ $todo->state === 'completed' ? 'checked' : '' }} onchange="event.preventDefault(); document.getElementById('todo-form-{{ $todo->id }}').submit();">
+                <form id="todo-form-{{ $todo->id }}" action="{{ route('todos.update', $todo) }}" method="POST" style="display: none;">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="completed" value="{{ $todo->state === 'completed' ? '0' : '1' }}">
+                </form>
+                <span class="{{ $todo->state === 'completed' ? 'completed' : '' }}">{{ $todo->title }}</span>
                 <a href="{{ route('todos.show', $todo) }}" class="btn">View Details</a>
             </li>
         @endforeach
