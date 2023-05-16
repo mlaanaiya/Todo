@@ -31,32 +31,27 @@ class TodoController extends Controller
         return view('todos.show', compact('todo', 'project'));
     }
 
-
-    public function create($project)
+    public function create()
     {
-        $project = Project::find($project);
-
-        return view('todos.create', compact('project'));
+        $projects = Project::all();
+        return view('todos.create', compact('projects'));
     }
-
-
-    public function store(Request $request, Project $project)
+    
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'nullable',
+            'project_id' => 'required|exists:projects,id',
         ]);
-
+    
         $validatedData['state'] = 'incomplete';
-        $validatedData['project_id'] = $project->id;
-
+    
         $todo = Todo::create($validatedData);
-
-        return redirect()->route('todos.projects.show', $project->id)->with('success', 'Todo created successfully');
-    }
-
-
-
+    
+        return redirect()->route('todos.projects.show', ['project' => $validatedData['project_id']])->with('success', 'Todo created successfully');
+    }    
+    
     public function update(Request $request, Todo $todo, Project $project)
     {
         $todo->update(['state' => $request->has('completed') ? 'completed' : 'incomplete']);
@@ -85,11 +80,9 @@ class TodoController extends Controller
 
     public function destroy(Todo $todo)
     {
-        // Supprimer le todo de la base de données
         $todo->delete();
-        $project = Project::find($todo->project_id);
 
-        return redirect()->route('todos.store', ['project' => $project])->with('success', 'Todo deleted successfully');
+        return redirect()->route('todos.index')->with('success', 'Todo deleted successfully');
     }
 
 }

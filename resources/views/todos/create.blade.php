@@ -9,7 +9,7 @@
     <div class="container mx-auto">
         <h1 class="text-3xl text-center my-8">Add Todo</h1>
         <div class="bg-white shadow rounded-lg p-8">
-            <form action="{{ route('todos.store', ['project' => $project]) }}" method="POST">
+            <form action="{{ route('todos.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="title" class="block text-gray-600 font-semibold mb-2">Title:</label>
@@ -18,6 +18,14 @@
                 <div class="mb-4">
                     <label for="description" class="block text-gray-600 font-semibold mb-2">Description:</label>
                     <textarea id="description" name="description" class="w-full px-4 py-2 border border-gray-300 rounded-md"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="project_id" class="block text-gray-600 font-semibold mb-2">Project</label>
+                        <select name="project_id" id="project_id" class="form-select border border-gray-300 rounded-md p-2">
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}">{{ $project->name }}</option>
+                            @endforeach
+                        </select>
                 </div>
                 <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
                     <i class="fas fa-save mr-2"></i>

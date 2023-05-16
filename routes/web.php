@@ -30,6 +30,6 @@ Route::get('/todos/{project?}', [TodoController::class, 'index'])->name('todos.i
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/todos/projects/{project}/create', [TodoController::class, 'create'])->name('todos.create');
-Route::post('/todos/projects/{project}', [TodoController::class, 'store'])->name('todos.store');
+Route::post('/todos/projects/', [TodoController::class, 'store'])->name('todos.store');
 Route::delete('todos/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
 Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
