@@ -14,5 +14,10 @@ class Todo extends Model
         'description',
         'state',
         'completed_at',
+        'project_id',
     ];
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

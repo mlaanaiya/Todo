@@ -19,6 +19,7 @@ class CreateTodosTable extends Migration
             $table->text('description')->nullable();
             $table->enum('state', ['incomplete', 'completed'])->default('incomplete');
             $table->timestamp('completed_at')->nullable();
+            $table->integer('project_id');
             $table->timestamps();
         });
     }
