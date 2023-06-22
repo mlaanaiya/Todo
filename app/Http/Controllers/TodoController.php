@@ -52,7 +52,7 @@ class TodoController extends Controller
         return redirect()->route('todos.projects.show', ['project' => $validatedData['project_id']])->with('success', 'Todo created successfully');
     }    
     
-    public function update(Request $request, Todo $todo, Project $project)
+    public function update(Request $request, Todo $todo)
     {
         $todo->update(['state' => $request->has('completed') ? 'completed' : 'incomplete']);
 
@@ -75,8 +75,6 @@ class TodoController extends Controller
 
         return view('todos.index', compact('todos', 'projects', 'project'));
     }
-
-
 
     public function destroy(Todo $todo)
     {
